@@ -1,1 +1,1 @@
-# My notes learning Golang
+My notes learning Golang
