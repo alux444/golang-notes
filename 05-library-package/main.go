@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/alux444/golang-notes/05-library-package/mypackage"
+	mypackage "github.com/my-org/my-package/util"
 )
 
 func main() {
