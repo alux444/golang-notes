@@ -8,4 +8,5 @@ import (
 
 func main() {
 	fmt.Println(mypackage.GetVersion())
+	fmt.Println(mypackage.Two)
 }
