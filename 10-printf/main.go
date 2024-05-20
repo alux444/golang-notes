@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	os "os"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -17,12 +18,17 @@ func main() {
 	fmt.Printf("The type of double is %T.\n", double)
 	fmt.Printf("\"hi\"\n")
 
-	if len(os.Args) != 3 {
-		fmt.Println("Please provide a first and last name.")
+	if len(os.Args) != 4 {
+		fmt.Println("Expected 3 arguments, got", len(os.Args)-1)
 		return
 	}
 
 	fn, ln := os.Args[1], os.Args[2]
 	msg := "Input names: %s %s\n"
 	fmt.Printf(msg, fn, ln)
+
+	//convert third argument to float
+	arg, error := strconv.ParseFloat(os.Args[3], 64)
+	fmt.Printf("The third argument is %f\n", arg)
+	fmt.Println("The error code is: ", error)
 }
