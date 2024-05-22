@@ -3,110 +3,11 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
-type digit [5]string
-
 func printTime(time string) {
-	zero := digit{
-		" ███ ",
-		"█   █",
-		"█   █",
-		"█   █",
-		" ███ ",
-	}
-
-	one := digit{
-		"  █  ",
-		" ██  ",
-		"  █  ",
-		"  █  ",
-		" ███ ",
-	}
-
-	two := digit{
-		" ███ ",
-		"█   █",
-		"   █ ",
-		"  █  ",
-		"█████",
-	}
-
-	three := digit{
-		" ███ ",
-		"█   █",
-		"  ██ ",
-		"█   █",
-		" ███ ",
-	}
-
-	four := digit{
-		"█   █",
-		"█   █",
-		"█████",
-		"    █",
-		"    █",
-	}
-
-	five := digit{
-		"█████",
-		"█    ",
-		"████ ",
-		"    █",
-		"████ ",
-	}
-
-	six := digit{
-		" ███ ",
-		"█    ",
-		"████ ",
-		"█   █",
-		" ███ ",
-	}
-
-	seven := digit{
-		"█████",
-		"   █ ",
-		"  █  ",
-		" █   ",
-		"█    ",
-	}
-
-	eight := digit{
-		" ███ ",
-		"█   █",
-		" ███ ",
-		"█   █",
-		" ███ ",
-	}
-
-	nine := digit{
-		" ███ ",
-		"█   █",
-		" ████",
-		"    █",
-		" ███ ",
-	}
-
-	colon := digit{
-		"     ",
-		"  ▒  ",
-		"     ",
-		"  ▒  ",
-		"     ",
-	}
-
-	blank := digit{
-		"     ",
-		"     ",
-		"     ",
-		"     ",
-		"     ",
-	}
-
-	digits := [...]digit{zero, one, two, three, four, five, six, seven, eight, nine, colon, blank}
-
 	for i := range digits[0] {
 		for j := range len(time) {
 			currentChar := time[j]
@@ -124,7 +25,7 @@ func printTime(time string) {
 	}
 }
 
-func printCurrentTime(showColons bool) {
+func printCurrentTime(showColons bool, leftShift int) {
 	time := time.Now()
 	hour, minute, second := time.Hour(), time.Minute(), time.Second()
 
@@ -151,15 +52,31 @@ func printCurrentTime(showColons bool) {
 	}
 	timeString := hourString + separator + minuteString + separator + secondString
 
+	if leftShift > 0 && leftShift < 8 {
+		timeString = timeString[leftShift:] + strings.Repeat(" ", leftShift)
+	}
+
+	if leftShift >= 8 {
+		repeatTimes := 16 - leftShift
+		endIndex := leftShift - 8
+		timeString = strings.Repeat(" ", repeatTimes) + timeString[:endIndex]
+	}
+
 	printTime(timeString)
 }
 
 func main() {
 	showColons := true
+	leftShift := 0
 	for {
 		fmt.Print("\033[H\033[2J") // Clear the terminal
-		printCurrentTime(showColons)
+
+		printCurrentTime(showColons, leftShift)
 		showColons = !showColons
+		leftShift++
+		if leftShift == 16 {
+			leftShift = 0
+		}
 		time.Sleep(time.Second)
 	}
 }
