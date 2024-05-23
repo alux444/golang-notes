@@ -44,4 +44,9 @@ func main() {
 
 	word = "$$hellos@@"
 	fmt.Println(strings.Trim(word, "$@s"))
+
+	one := 1
+	two := 2
+	s := fmt.Sprintf("one is %d, two is %d", one, two)
+	fmt.Println(s)
 }
