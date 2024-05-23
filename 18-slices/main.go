@@ -14,6 +14,8 @@ func slices() {
 	slice = append(slice, 1)
 
 	slice2 := []int{1, 2, 3}
+	//when the reaches over capacity, the slice gets overwritten with new one, as cap + len are immutable
+	//so there is a new backing array for the slice.
 	slice2 = append(slice2, 4, 5, 6)
 	fmt.Println(slice, slice2)
 
@@ -32,6 +34,7 @@ func sliceSizes() {
 	// array's size depends on its elements
 	fmt.Printf("array's size: %d bytes.\n", unsafe.Sizeof(array))
 	// slice's size is always fixed: 24 bytes (on a 64-bit system) — slice value = slice header
+	// slice header is the pointer, size, capacity
 	fmt.Printf("slice's size: %d bytes.\n", unsafe.Sizeof(data))
 }
 
